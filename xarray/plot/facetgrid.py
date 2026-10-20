@@ -4,7 +4,7 @@ import functools
 import itertools
 import warnings
 from collections.abc import Callable, Hashable, Iterable, MutableMapping
-from typing import TYPE_CHECKING, Any, Literal, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 import numpy as np
 
@@ -79,9 +79,6 @@ def _auto_grid(
         ncol -= 1
 
     return ncol, nrow
-
-
-T_FacetGrid = TypeVar("T_FacetGrid", bound="FacetGrid")
 
 
 class FacetGrid[T_DataArrayOrSet: Dataset | DataArray]:
@@ -335,7 +332,7 @@ class FacetGrid[T_DataArrayOrSet: Dataset | DataArray]:
     def _bottom_axes(self) -> np.ndarray:
         return self.axs[-1, :]
 
-    def map_dataarray(
+    def map_dataarray[T_FacetGrid: "FacetGrid"](
         self: T_FacetGrid,
         func: Callable,
         x: Hashable | None,
@@ -636,7 +633,7 @@ class FacetGrid[T_DataArrayOrSet: Dataset | DataArray]:
 
         return self
 
-    def map_dataset(
+    def map_dataset[T_FacetGrid: "FacetGrid"](
         self: T_FacetGrid,
         func: Callable,
         x: Hashable | None = None,
@@ -999,7 +996,7 @@ class FacetGrid[T_DataArrayOrSet: Dataset | DataArray]:
             ):
                 tick.label1.set_fontsize(fontsize)
 
-    def map(
+    def map[T_FacetGrid: "FacetGrid"](
         self: T_FacetGrid, func: Callable, *args: Hashable, **kwargs: Any
     ) -> T_FacetGrid:
         """Apply a plotting function to each facet's subset of the data.
